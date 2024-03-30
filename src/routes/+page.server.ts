@@ -1,4 +1,4 @@
-import { db } from '$lib/db/index';
+/* import { db } from '$lib/db/index';
 import { formSchema } from './formSchema';
 import { zod } from 'sveltekit-superforms/adapters';
 import { superValidate } from 'sveltekit-superforms';
@@ -19,3 +19,4 @@ export const actions: Actions = {
 		await db.insert(books).values({ bookName, author, isbn, published });
 	}
 };
+ */
