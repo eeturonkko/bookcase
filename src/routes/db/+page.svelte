@@ -10,6 +10,7 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
+	import { enhance } from '$app/forms';
 
 	// Filter books based on search query
 	let searchQuery = '';
@@ -20,11 +21,6 @@
 			book.author!.toLowerCase().includes(searchQuery.toLowerCase()) ||
 			book.category!.toLowerCase().includes(searchQuery.toLowerCase())
 	);
-
-	// Delete book from the list
-	function deleteBook(name: string) {
-		//TODO: delete book from db
-	}
 </script>
 
 <div class="mt-8 flex min-h-screen w-full flex-col">
@@ -94,12 +90,15 @@
 													<span class="sr-only">Toggle menu</span>
 												</Button>
 											</DropdownMenu.Trigger>
-											<DropdownMenu.Content align="end">
-												<DropdownMenu.Label>Actions</DropdownMenu.Label>
-												<DropdownMenu.Item>Edit</DropdownMenu.Item>
-												<!-- <DropdownMenu.Item on:click={() => deleteBook(bookName)}
-													>Delete</DropdownMenu.Item
-												> -->
+											<DropdownMenu.Content align="start">
+												<form use:enhance action="?/deleteBookFromDb" method="post">
+													<input type="hidden" name="bookName" value={bookName} />
+													<DropdownMenu.Label>Actions</DropdownMenu.Label>
+													<DropdownMenu.Item>Edit</DropdownMenu.Item>
+													<DropdownMenu.Item>
+														<button type="submit">Delete</button>
+													</DropdownMenu.Item>
+												</form>
 											</DropdownMenu.Content>
 										</DropdownMenu.Root>
 									</Table.Cell>
