@@ -42,7 +42,9 @@
 		"drizzle-orm": "^0.30.6",
 		"pg": "^8.11.3",
 		"postgres": "^3.4.4",
+		"sveltekit-superforms": "^2.12.2",
 		"tailwind-merge": "^2.2.2",
-		"tailwind-variants": "^0.2.1"
+		"tailwind-variants": "^0.2.1",
+		"zod": "^3.22.4"
 	}
 }
