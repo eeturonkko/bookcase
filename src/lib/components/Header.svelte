@@ -25,9 +25,9 @@
 				</li>
 			{/each}
 		</ul>
-		<form action="" class="flex gap-1">
-			<Input placeholder="search for books" />
-			<Button variant="link" class="border">
+		<form action="" class="relative flex">
+			<Input placeholder="search for books" class="w-full py-2 pl-3 pr-10" />
+			<Button variant="link" class="absolute right-0 top-0 ">
 				<Search size={16} />
 			</Button>
 		</form>
