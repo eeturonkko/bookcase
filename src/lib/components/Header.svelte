@@ -26,7 +26,7 @@
 			{/each}
 		</ul>
 		<form action="" class="relative flex">
-			<Input placeholder="search for books" class="w-full py-2 pl-3 pr-10" />
+			<Input placeholder="Search for books" class="w-full py-2 pl-3 pr-10" />
 			<Button variant="link" class="absolute right-0 top-0 ">
 				<Search size={16} />
 			</Button>

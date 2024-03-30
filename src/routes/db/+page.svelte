@@ -1,0 +1,126 @@
+<script lang="ts">
+	import File from 'lucide-svelte/icons/file';
+	import Ellipsis from 'lucide-svelte/icons/ellipsis';
+	import CirclePlus from 'lucide-svelte/icons/circle-plus';
+	import Search from 'lucide-svelte/icons/search';
+
+	import { Button } from '$lib/components/ui/button/index.js';
+	import * as Card from '$lib/components/ui/card/index.js';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import * as Table from '$lib/components/ui/table/index.js';
+
+	// Dummy data for testing
+	let books = [
+		{ name: 'The Great Gatsby', author: 'F. Scott Fitzgerald', category: 'Classic' },
+		{ name: 'To Kill a Mockingbird', author: 'Harper Lee', category: 'Classic' },
+		{ name: '1984', author: 'George Orwell', category: 'Dystopian' },
+		{ name: 'The Catcher in the Rye', author: 'J.D. Salinger', category: 'Classic' },
+		{ name: 'Brave New World', author: 'Aldous Huxley', category: 'Dystopian' },
+		{ name: 'Three body problem', author: 'Liu Cixin', category: 'Sci-fi' },
+		{ name: 'The Hobbit', author: 'J.R.R. Tolkien', category: 'Fantasy' },
+		{ name: 'The Lord of the Rings', author: 'J.R.R. Tolkien', category: 'Fantasy' },
+		{ name: 'The Dark Forest', author: 'Liu Cixin', category: 'Sci-fi' }
+	];
+
+	// Filter books based on search query
+	let searchQuery = '';
+	$: filteredBooks = books.filter(
+		(book) =>
+			book.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			book.category.toLowerCase().includes(searchQuery.toLowerCase())
+	);
+
+	// Delete book from the list
+	function deleteBook(name: string) {
+		books = books.filter((book) => book.name !== name);
+	}
+</script>
+
+<div class="mt-8 flex min-h-screen w-full flex-col">
+	<div class="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+		<header
+			class="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6"
+		>
+			<div class="relative ml-auto flex-1 md:grow-0">
+				<Search class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+				<Input
+					bind:value={searchQuery}
+					type="search"
+					placeholder="Search..."
+					class="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[336px]"
+				/>
+			</div>
+		</header>
+		<main class="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+			<div class="flex items-center">
+				<div class="ml-auto flex items-center gap-2">
+					<Button size="sm" variant="outline" class="h-8 gap-1">
+						<File class="h-3.5 w-3.5" />
+						<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Export </span>
+					</Button>
+					<Button size="sm" class="h-8 gap-1">
+						<CirclePlus class="h-3.5 w-3.5" />
+						<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Book </span>
+					</Button>
+				</div>
+			</div>
+
+			<Card.Root>
+				<Card.Header>
+					<Card.Title>Books</Card.Title>
+					<Card.Description>All the books from the bookcase database</Card.Description>
+				</Card.Header>
+				<Card.Content>
+					<Table.Root>
+						<Table.Header>
+							<Table.Row>
+								<Table.Head>Name</Table.Head>
+								<Table.Head>Author</Table.Head>
+								<Table.Head>Category</Table.Head>
+							</Table.Row>
+						</Table.Header>
+						<Table.Body>
+							{#if filteredBooks.length === 0}
+								<Table.Row>
+									<Table.Cell class="text-center">No books found</Table.Cell>
+								</Table.Row>
+							{/if}
+							{#each filteredBooks as { name, author, category }}
+								<Table.Row>
+									<Table.Cell class="font-medium">{name}</Table.Cell>
+									<Table.Cell>{author}</Table.Cell>
+									<Table.Cell>{category}</Table.Cell>
+									<Table.Cell>
+										<DropdownMenu.Root>
+											<DropdownMenu.Trigger asChild let:builder>
+												<Button
+													builders={[builder]}
+													aria-haspopup="true"
+													size="icon"
+													variant="ghost"
+												>
+													<Ellipsis class="h-4 w-4" />
+													<span class="sr-only">Toggle menu</span>
+												</Button>
+											</DropdownMenu.Trigger>
+											<DropdownMenu.Content align="end">
+												<DropdownMenu.Label>Actions</DropdownMenu.Label>
+												<DropdownMenu.Item>Edit</DropdownMenu.Item>
+												<DropdownMenu.Item on:click={() => deleteBook(name)}
+													>Delete</DropdownMenu.Item
+												>
+											</DropdownMenu.Content>
+										</DropdownMenu.Root>
+									</Table.Cell>
+								</Table.Row>
+							{/each}
+						</Table.Body>
+					</Table.Root>
+				</Card.Content>
+				<Card.Footer></Card.Footer>
+			</Card.Root>
+		</main>
+	</div>
+</div>
