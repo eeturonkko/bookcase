@@ -1,4 +1,5 @@
 <script lang="ts">
+	export let data;
 	import File from 'lucide-svelte/icons/file';
 	import Ellipsis from 'lucide-svelte/icons/ellipsis';
 	import CirclePlus from 'lucide-svelte/icons/circle-plus';
@@ -10,31 +11,19 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 
-	// Dummy data for testing
-	let books = [
-		{ name: 'The Great Gatsby', author: 'F. Scott Fitzgerald', category: 'Classic' },
-		{ name: 'To Kill a Mockingbird', author: 'Harper Lee', category: 'Classic' },
-		{ name: '1984', author: 'George Orwell', category: 'Dystopian' },
-		{ name: 'The Catcher in the Rye', author: 'J.D. Salinger', category: 'Classic' },
-		{ name: 'Brave New World', author: 'Aldous Huxley', category: 'Dystopian' },
-		{ name: 'Three body problem', author: 'Liu Cixin', category: 'Sci-fi' },
-		{ name: 'The Hobbit', author: 'J.R.R. Tolkien', category: 'Fantasy' },
-		{ name: 'The Lord of the Rings', author: 'J.R.R. Tolkien', category: 'Fantasy' },
-		{ name: 'The Dark Forest', author: 'Liu Cixin', category: 'Sci-fi' }
-	];
-
 	// Filter books based on search query
 	let searchQuery = '';
-	$: filteredBooks = books.filter(
+
+	$: filteredBooks = data.books.filter(
 		(book) =>
-			book.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			book.category.toLowerCase().includes(searchQuery.toLowerCase())
+			book.bookName!.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			book.author!.toLowerCase().includes(searchQuery.toLowerCase()) ||
+			book.category!.toLowerCase().includes(searchQuery.toLowerCase())
 	);
 
 	// Delete book from the list
 	function deleteBook(name: string) {
-		books = books.filter((book) => book.name !== name);
+		//TODO: delete book from db
 	}
 </script>
 
@@ -87,9 +76,9 @@
 									<Table.Cell class="text-center">No books found</Table.Cell>
 								</Table.Row>
 							{/if}
-							{#each filteredBooks as { name, author, category }}
+							{#each filteredBooks as { bookName, author, category }}
 								<Table.Row>
-									<Table.Cell class="font-medium">{name}</Table.Cell>
+									<Table.Cell class="font-medium">{bookName}</Table.Cell>
 									<Table.Cell>{author}</Table.Cell>
 									<Table.Cell>{category}</Table.Cell>
 									<Table.Cell>
@@ -108,9 +97,9 @@
 											<DropdownMenu.Content align="end">
 												<DropdownMenu.Label>Actions</DropdownMenu.Label>
 												<DropdownMenu.Item>Edit</DropdownMenu.Item>
-												<DropdownMenu.Item on:click={() => deleteBook(name)}
+												<!-- <DropdownMenu.Item on:click={() => deleteBook(bookName)}
 													>Delete</DropdownMenu.Item
-												>
+												> -->
 											</DropdownMenu.Content>
 										</DropdownMenu.Root>
 									</Table.Cell>
