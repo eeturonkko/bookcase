@@ -11,6 +11,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { enhance } from '$app/forms';
+	import * as Sheet from '$lib/components/ui/sheet';
 
 	// Filter books based on search query
 	let searchQuery = '';
@@ -45,10 +46,47 @@
 						<File class="h-3.5 w-3.5" />
 						<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Export </span>
 					</Button>
-					<Button size="sm" class="h-8 gap-1">
-						<CirclePlus class="h-3.5 w-3.5" />
-						<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Book </span>
-					</Button>
+					<Sheet.Root>
+						<Sheet.Trigger>
+							<Button size="sm" class="h-8 gap-1">
+								<CirclePlus class="h-3.5 w-3.5" />
+								<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Book </span>
+							</Button>
+						</Sheet.Trigger>
+						<Sheet.Content>
+							<Sheet.Header>
+								<Sheet.Title>Add book the the database</Sheet.Title>
+								<Sheet.Description>
+									<form use:enhance action="?/addBookToDb" method="post" class="space-y-4">
+										<Input
+											type="text"
+											name="bookName"
+											placeholder="Book Name"
+											required
+											class="w-full"
+										/>
+										<Input type="text" name="author" placeholder="Author" required class="w-full" />
+										<Input
+											type="text"
+											name="category"
+											placeholder="Category"
+											required
+											class="w-full"
+										/>
+										<Input type="text" name="isbn" placeholder="ISBN" required class="w-full" />
+										<Input
+											type="date"
+											name="published"
+											placeholder="Published Date"
+											required
+											class="w-full"
+										/>
+										<Button type="submit">Add Book</Button>
+									</form>
+								</Sheet.Description>
+							</Sheet.Header>
+						</Sheet.Content>
+					</Sheet.Root>
 				</div>
 			</div>
 

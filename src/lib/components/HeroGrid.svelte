@@ -27,6 +27,7 @@
 				"Organize your reading list. Keep track of books you've read, want to read, and are currently reading."
 		}
 	];
+  
 </script>
 
 <div class="mt-6 grid grid-cols-2 place-items-center gap-5 p-4">

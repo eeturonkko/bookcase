@@ -1,7 +1,16 @@
 import { z } from 'zod';
 
-export const formSchema = z.object({
+export const deleteBookFormSchema = z.object({
 	bookName: z.string().min(2).max(50)
 });
 
-export type FormSchema = typeof formSchema;
+export const addBookFormSchema = z.object({
+	bookName: z.string().min(2).max(50),
+	author: z.string().min(2).max(50),
+	category: z.string().min(2).max(50),
+	isbn: z.string().min(2).max(50),
+	published: z.date()
+});
+
+export type DeleteBookFormSchema = typeof deleteBookFormSchema;
+export type AddBookFormSchema = typeof addBookFormSchema;
