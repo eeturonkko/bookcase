@@ -13,6 +13,7 @@
 	import { enhance } from '$app/forms';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { toast } from 'svelte-sonner';
+	import { Book } from 'lucide-svelte';
 
 	// Filter books based on search query
 	let searchQuery = '';
@@ -82,13 +83,9 @@
 											required
 											class="w-full"
 										/>
-										<Sheet.Close asChild let:builder>
-											<Button
-												builders={[builder]}
-												on:click={() => toast(`Added book to the database`)}
-												type="submit">Add Book</Button
-											>
-										</Sheet.Close>
+										<Button on:click={() => toast(`Added book to the database`)} type="submit">
+											Add Book
+										</Button>
 									</form>
 								</Sheet.Description>
 							</Sheet.Header>
@@ -141,7 +138,10 @@
 													<DropdownMenu.Label>Actions</DropdownMenu.Label>
 													<DropdownMenu.Item>Edit</DropdownMenu.Item>
 													<DropdownMenu.Item>
-														<button type="submit">Delete</button>
+														<button
+															on:click={() => toast('Deleted book from the database')}
+															type="submit">Delete</button
+														>
 													</DropdownMenu.Item>
 												</form>
 											</DropdownMenu.Content>
