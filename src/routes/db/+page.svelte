@@ -12,6 +12,7 @@
 	import * as Table from '$lib/components/ui/table/index.js';
 	import { enhance } from '$app/forms';
 	import * as Sheet from '$lib/components/ui/sheet';
+	import { toast } from 'svelte-sonner';
 
 	// Filter books based on search query
 	let searchQuery = '';
@@ -81,7 +82,9 @@
 											required
 											class="w-full"
 										/>
-										<Button type="submit">Add Book</Button>
+										<Button on:click={() => toast(`Added book to the DB`)} type="submit"
+											>Add Book</Button
+										>
 									</form>
 								</Sheet.Description>
 							</Sheet.Header>
