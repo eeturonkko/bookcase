@@ -82,9 +82,13 @@
 											required
 											class="w-full"
 										/>
-										<Button on:click={() => toast(`Added book to the DB`)} type="submit"
-											>Add Book</Button
-										>
+										<Sheet.Close asChild let:builder>
+											<Button
+												builders={[builder]}
+												on:click={() => toast(`Added book to the database`)}
+												type="submit">Add Book</Button
+											>
+										</Sheet.Close>
 									</form>
 								</Sheet.Description>
 							</Sheet.Header>
