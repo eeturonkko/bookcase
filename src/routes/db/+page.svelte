@@ -13,17 +13,18 @@
 	import { enhance } from '$app/forms';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { toast } from 'svelte-sonner';
-	import { Book } from 'lucide-svelte';
 
 	// Filter books based on search query
 	let searchQuery = '';
 
-	$: filteredBooks = data.books.filter(
-		(book) =>
-			book.bookName!.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			book.author!.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			book.category!.toLowerCase().includes(searchQuery.toLowerCase())
-	);
+	$: filteredBooks = data.books
+		.filter(
+			(book) =>
+				book.bookName!.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				book.author!.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				book.category!.toLowerCase().includes(searchQuery.toLowerCase())
+		)
+		.sort((a, b) => a.bookName!.localeCompare(b.bookName!));
 </script>
 
 <div class="mt-8 flex min-h-screen w-full flex-col">
@@ -75,7 +76,14 @@
 											required
 											class="w-full"
 										/>
-										<Input type="text" name="isbn" placeholder="ISBN" required class="w-full" />
+										<Input
+											type="text"
+											name="isbn"
+											maxlength={13}
+											placeholder="ISBN"
+											required
+											class="w-full"
+										/>
 										<Input
 											type="date"
 											name="published"
