@@ -1,18 +1,11 @@
 <script lang="ts">
 	export let data;
 	import File from 'lucide-svelte/icons/file';
-	import Ellipsis from 'lucide-svelte/icons/ellipsis';
-	import CirclePlus from 'lucide-svelte/icons/circle-plus';
 	import Search from 'lucide-svelte/icons/search';
-
 	import { Button } from '$lib/components/ui/button/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
-	import * as Table from '$lib/components/ui/table/index.js';
-	import { enhance } from '$app/forms';
-	import * as Sheet from '$lib/components/ui/sheet';
-	import { toast } from 'svelte-sonner';
+	import BooksDisplay from '$lib/components/BooksDisplay.svelte';
+	import AddBookButton from '$lib/components/AddBookButton.svelte';
 
 	// Filter books based on search query
 	let searchQuery = '';
@@ -49,119 +42,10 @@
 						<File class="h-3.5 w-3.5" />
 						<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Export </span>
 					</Button>
-					<Sheet.Root>
-						<Sheet.Trigger>
-							<Button size="sm" class="h-8 gap-1">
-								<CirclePlus class="h-3.5 w-3.5" />
-								<span class="sr-only sm:not-sr-only sm:whitespace-nowrap"> Add Book </span>
-							</Button>
-						</Sheet.Trigger>
-						<Sheet.Content>
-							<Sheet.Header>
-								<Sheet.Title>Add book the the database</Sheet.Title>
-								<Sheet.Description>
-									<form use:enhance action="?/addBookToDb" method="post" class="space-y-4">
-										<Input
-											type="text"
-											name="bookName"
-											placeholder="Book Name"
-											required
-											class="w-full"
-										/>
-										<Input type="text" name="author" placeholder="Author" required class="w-full" />
-										<Input
-											type="text"
-											name="category"
-											placeholder="Category"
-											required
-											class="w-full"
-										/>
-										<Input
-											type="text"
-											name="isbn"
-											maxlength={13}
-											placeholder="ISBN"
-											required
-											class="w-full"
-										/>
-										<Input
-											type="date"
-											name="published"
-											placeholder="Published Date"
-											required
-											class="w-full"
-										/>
-										<Button on:click={() => toast(`Added book to the database`)} type="submit">
-											Add Book
-										</Button>
-									</form>
-								</Sheet.Description>
-							</Sheet.Header>
-						</Sheet.Content>
-					</Sheet.Root>
+					<AddBookButton />
 				</div>
 			</div>
-
-			<Card.Root>
-				<Card.Header>
-					<Card.Title>Books</Card.Title>
-					<Card.Description>All the books from the bookcase database</Card.Description>
-				</Card.Header>
-				<Card.Content>
-					<Table.Root>
-						<Table.Header>
-							<Table.Row>
-								<Table.Head>Name</Table.Head>
-								<Table.Head>Author</Table.Head>
-								<Table.Head>Category</Table.Head>
-							</Table.Row>
-						</Table.Header>
-						<Table.Body>
-							{#if filteredBooks.length === 0}
-								<Table.Row>
-									<Table.Cell class="text-center">No books found</Table.Cell>
-								</Table.Row>
-							{/if}
-							{#each filteredBooks as { bookName, author, category }}
-								<Table.Row>
-									<Table.Cell class="font-medium">{bookName}</Table.Cell>
-									<Table.Cell>{author}</Table.Cell>
-									<Table.Cell>{category}</Table.Cell>
-									<Table.Cell>
-										<DropdownMenu.Root>
-											<DropdownMenu.Trigger asChild let:builder>
-												<Button
-													builders={[builder]}
-													aria-haspopup="true"
-													size="icon"
-													variant="ghost"
-												>
-													<Ellipsis class="h-4 w-4" />
-													<span class="sr-only">Toggle menu</span>
-												</Button>
-											</DropdownMenu.Trigger>
-											<DropdownMenu.Content align="start">
-												<form use:enhance action="?/deleteBookFromDb" method="post">
-													<input type="hidden" name="bookName" value={bookName} />
-													<DropdownMenu.Label>Actions</DropdownMenu.Label>
-													<DropdownMenu.Item>Edit</DropdownMenu.Item>
-													<DropdownMenu.Item>
-														<button
-															on:click={() => toast('Deleted book from the database')}
-															type="submit">Delete</button
-														>
-													</DropdownMenu.Item>
-												</form>
-											</DropdownMenu.Content>
-										</DropdownMenu.Root>
-									</Table.Cell>
-								</Table.Row>
-							{/each}
-						</Table.Body>
-					</Table.Root>
-				</Card.Content>
-				<Card.Footer></Card.Footer>
-			</Card.Root>
+			<BooksDisplay data={{ filteredBooks: filteredBooks }} />
 		</main>
 	</div>
 </div>
